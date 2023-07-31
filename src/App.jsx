@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import FeedbackOptions from './components/FeedbackOptions';
 import Statistics from './components/Statistics';
 import Section from './components/Section';
+import Notification from 'components/Notification/Notification';
 
 class App extends Component {
   state = {
@@ -10,23 +11,26 @@ class App extends Component {
     bad: 0,
   };
 
-  getTotal = values =>
-    values.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
-
   onReviewClick = e => {
     this.setState({
       [e.currentTarget.id]: this.state[e.currentTarget.id] + 1,
     });
   };
 
+  getTotal = values =>
+    values.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+
   getPositivePercentage = values =>
-    ((this.state.good / this.getTotal(values)) * 100).toFixed(0);
+    Number(((this.state.good / this.getTotal(values)) * 100).toFixed(0));
 
   render() {
     const { state, getTotal, onReviewClick, getPositivePercentage } = this;
 
     const options = Object.keys(state);
     const values = Object.values(state);
+
+    const total = getTotal(values);
+    const positivePercentage = getPositivePercentage(values);
 
     return (
       <>
@@ -38,13 +42,17 @@ class App extends Component {
         </Section>
 
         <Section title="Statistics">
-          <Statistics
-            neededState={state}
-            getTotal={getTotal}
-            values={values}
-            options={options}
-            getPositivePercentage={getPositivePercentage}
-          ></Statistics>
+          {total === 0 ? (
+            <Notification message="There is no feedback" />
+          ) : (
+            <Statistics
+              good={this.state.good}
+              neutral={this.state.neutral}
+              bad={this.state.bad}
+              total={total}
+              positivePercentage={positivePercentage}
+            ></Statistics>
+          )}
         </Section>
       </>
     );
