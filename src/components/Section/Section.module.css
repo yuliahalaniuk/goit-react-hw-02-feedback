@@ -1,0 +1,31 @@
+.title {
+  color: #000;
+  font-size: 32px;
+  font-weight: 400;
+  margin-bottom: 20px;
+}
+
+.section {
+  padding: 40px 30px;
+  border-radius: 12px;
+  max-width: 60%;
+  background-color: #8efaf3;
+  margin: 20px auto;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul,
+p,
+li {
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+}
